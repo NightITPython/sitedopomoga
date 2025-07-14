@@ -284,10 +284,9 @@
             box-shadow: 0 12px 25px rgba(0, 87, 184, 0.15);
         }
 
-        .bank-option img {
+        .bank-option svg {
             width: 80px;
             height: 50px;
-            object-fit: contain;
             margin-bottom: 10px;
         }
 
@@ -312,7 +311,7 @@
                 padding: 10px;
             }
 
-            .bank-option img {
+            .bank-option svg {
                 width: 60px;
                 height: 40px;
             }
@@ -425,51 +424,71 @@
         <div class="container">
             <div class="payment-card">
                 <div class="bank-options">
-                    <!-- Вариант 1: Использование внешних ссылок на логотипы -->
                     <div class="bank-option" onclick="selectBank('privat')">
-                        <img src="privat.png" alt="ПриватБанк">
+                        <svg width="80" height="50" viewBox="0 0 80 50">
+                            <defs>
+                                <linearGradient id="privatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1e9e2f"/>
+                                    <stop offset="100%" stop-color="#0d5e1a"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="80" height="50" rx="10" fill="url(#privatGradient)"/>
+                            <text x="40" y="30" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Приват</text>
+                        </svg>
                         <span>ПриватБанк</span>
                     </div>
                     <div class="bank-option" onclick="selectBank('oschad')">
-                        <img src="oshad.png" alt="Ощадбанк">
+                        <svg width="80" height="50" viewBox="0 0 80 50">
+                            <defs>
+                                <linearGradient id="oschadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0057b8"/>
+                                    <stop offset="100%" stop-color="#003d82"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="80" height="50" rx="10" fill="url(#oschadGradient)"/>
+                            <text x="40" y="30" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Ощад</text>
+                        </svg>
                         <span>Ощадбанк</span>
                     </div>
                     <div class="bank-option" onclick="selectBank('raif')">
-                        <img src="raif.png" alt="Райффайзен">
+                        <svg width="80" height="50" viewBox="0 0 80 50">
+                            <defs>
+                                <linearGradient id="raifGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#f9a825"/>
+                                    <stop offset="100%" stop-color="#e65100"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="80" height="50" rx="10" fill="url(#raifGradient)"/>
+                            <text x="40" y="30" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Райф</text>
+                        </svg>
                         <span>Райффайзен</span>
                     </div>
                     <div class="bank-option" onclick="selectBank('mono')">
-                        <img src="mono.png" alt="Монобанк">
+                        <svg width="80" height="50" viewBox="0 0 80 50">
+                            <defs>
+                                <linearGradient id="monoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#000000"/>
+                                    <stop offset="100%" stop-color="#333333"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="80" height="50" rx="10" fill="url(#monoGradient)"/>
+                            <text x="40" y="30" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Моно</text>
+                        </svg>
                         <span>Монобанк</span>
                     </div>
                     <div class="bank-option" onclick="selectBank('pumb')">
-                        <img src="pumb.png" alt="ПУМБ">
+                        <svg width="80" height="50" viewBox="0 0 80 50">
+                            <defs>
+                                <linearGradient id="pumbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#d32f2f"/>
+                                    <stop offset="100%" stop-color="#9a0007"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="80" height="50" rx="10" fill="url(#pumbGradient)"/>
+                            <text x="40" y="30" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">ПУМБ</text>
+                        </svg>
                         <span>ПУМБ</span>
                     </div>
-
-                    <!-- Вариант 2: Использование локальных файлов (раскомментируйте и закомментируйте вариант выше) -->
-                    <!--
-                    <div class="bank-option" onclick="selectBank('privat')">
-                        <img src="./images/privat.png" alt="ПриватБанк">
-                        <span>ПриватБанк</span>
-                    </div>
-                    <div class="bank-option" onclick="selectBank('oschad')">
-                        <img src="./images/oschad.png" alt="Ощадбанк">
-                        <span>Ощадбанк</span>
-                    </div>
-                    <div class="bank-option" onclick="selectBank('raif')">
-                        <img src="./images/raif.png" alt="Райффайзен">
-                        <span>Райффайзен</span>
-                    </div>
-                    <div class="bank-option" onclick="selectBank('mono')">
-                        <img src="./images/mono.png" alt="Монобанк">
-                        <span>Монобанк</span>
-                    </div>
-                    <div class="bank-option" onclick="selectBank('pumb')">
-                        <img src="./images/pumb.png" alt="ПУМБ">
-                        <span>ПУМБ</span>
-                    </div>
-                    -->
                 </div>
 
                 <form id="bankForm" style="display: none;">
